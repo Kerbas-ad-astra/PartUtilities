@@ -181,7 +181,7 @@ namespace JSIPartUtilities
 			case ActuatorType.AttachmentNode:
 				if (tokens.Length == 1) {
 					nodeName = tokens [0].Trim ();
-					var foundNode = thatPart.findAttachNode (nodeName);
+					var foundNode = thatPart.FindAttachNode (nodeName);
 					if (foundNode == null) {
 						throw new ArgumentException ("Node not found.");
 					}
@@ -285,8 +285,8 @@ namespace JSIPartUtilities
 						}
 						// We can, hopefully, avoid deleting the tank that this particular actuator did not create.
 						if (resourcePointer != null && resourcePointer.maxAmount == maxAmount) {
-							thatPart.Resources.list.Remove (resourcePointer);
-							UnityEngine.Object.Destroy (resourcePointer);
+							thatPart.Resources.Remove (resourcePointer);
+							//UnityEngine.Object.Destroy (resourcePointer);
 							resourcePointer = null;
 						}
 					}
@@ -296,14 +296,14 @@ namespace JSIPartUtilities
 						node.AddValue ("amount", maxAmount);
 						node.AddValue ("maxAmount", maxAmount);
 						resourcePointer = thatPart.AddResource (node);
-						resourcePointer.enabled = true;
+						resourcePointer.flowState = true;
 					} 
 
 				}
 				break;
 			case ActuatorType.AttachmentNode:
 				if (HighLogic.LoadedSceneIsEditor && savedNodePosition != faraway) {
-					var foundNode = thatPart.findAttachNode (nodeName);
+					var foundNode = thatPart.FindAttachNode (nodeName);
 					if (foundNode.attachedPart == null) {
 						foundNode.position = newstate ? faraway : savedNodePosition;
 					}

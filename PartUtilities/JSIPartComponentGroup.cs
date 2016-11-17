@@ -78,14 +78,24 @@ namespace JSIPartUtilities
 
 		private readonly List<Actuator> actuators = new List<Actuator> ();
 
-		float IPartCostModifier.GetModuleCost(float defaultCost)
+		float IPartCostModifier.GetModuleCost(float defaultCost, ModifierStagingSituation sit)
 		{
 			return currentState ? costOfBeingEnabled : 0;
 		}
 
-		float IPartMassModifier.GetModuleMass(float defaultMass)
+		ModifierChangeWhen IPartCostModifier.GetModuleCostChangeWhen()
+		{
+			return activeInFlight ?  ModifierChangeWhen.CONSTANTLY : ModifierChangeWhen.FIXED;
+		}
+
+		float IPartMassModifier.GetModuleMass(float defaultMass, ModifierStagingSituation sit)
 		{
 			return currentState ? massOfBeingEnabled : 0;
+		}
+
+		ModifierChangeWhen IPartMassModifier.GetModuleMassChangeWhen()
+		{
+			return activeInFlight ? ModifierChangeWhen.CONSTANTLY : ModifierChangeWhen.FIXED;
 		}
 
 		private void ParseSet (string input, ActuatorType type)
