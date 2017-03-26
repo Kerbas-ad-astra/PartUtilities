@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace JSIPartUtilities
 {
-	public class JSIPartComponentGroup: PartModule, IPartCostModifier, IPartMassModifier
+	public class JSIPartComponentGroup: PartModule
 	{
 
 		[KSPField (isPersistant = true)]
@@ -19,12 +19,6 @@ namespace JSIPartUtilities
 
 		[KSPField]
 		public bool areComponentsEnabled = true;
-
-		[KSPField]
-		public float costOfBeingEnabled = 0;
-
-		[KSPField]
-		public float massOfBeingEnabled = 0;
 
 		[KSPField]
 		public bool persistAfterEditor = true;
@@ -77,16 +71,6 @@ namespace JSIPartUtilities
 		public string toggleMenuString = string.Empty;
 
 		private readonly List<Actuator> actuators = new List<Actuator> ();
-
-		float IPartCostModifier.GetModuleCost(float defaultCost)
-		{
-			return currentState ? costOfBeingEnabled : 0;
-		}
-
-		float IPartMassModifier.GetModuleMass(float defaultMass)
-		{
-			return currentState ? massOfBeingEnabled : 0;
-		}
 
 		private void ParseSet (string input, ActuatorType type)
 		{

@@ -26,7 +26,7 @@ namespace JSIPartUtilities
 
 	}
 
-	public class JSIPartComponentToggle: PartModule, IPartCostModifier
+	public class JSIPartComponentToggle: PartModule
 	{
 
 		[KSPField]
@@ -84,11 +84,6 @@ namespace JSIPartUtilities
 		#region IPartCostModifier implementation
 
 		public float GetModuleCost ()
-		{
-			return currentState ? costOfBeingEnabled : 0;
-		}
-
-		float IPartCostModifier.GetModuleCost(float defaultCost)
 		{
 			return currentState ? costOfBeingEnabled : 0;
 		}
@@ -206,16 +201,16 @@ namespace JSIPartUtilities
 			Component thatComponent = thatPart.FindModelComponent<Component> (targetName);
 			if (thatComponent != null) {
 				if (controlRendering) {
-					if (thatComponent.renderer != null) {
-						thatComponent.renderer.enabled = state;
+					if (thatComponent.GetComponent<Renderer>() != null) {
+						thatComponent.GetComponent<Renderer>().enabled = state;
 					}
 					foreach (Renderer thatRenderer in thatComponent.GetComponentsInChildren<Renderer>()) {
 						thatRenderer.enabled = state;
 					}
 				}
 				if (controlColliders) {
-					if (thatComponent.collider != null) {
-						thatComponent.collider.enabled = state;
+					if (thatComponent.GetComponent<Collider>() != null) {
+						thatComponent.GetComponent<Collider>().enabled = state;
 					}
 					foreach (Collider thatCollider in thatComponent.GetComponentsInChildren<Collider>()) {
 						thatCollider.enabled = state;
