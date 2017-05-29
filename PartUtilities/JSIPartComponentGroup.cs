@@ -149,7 +149,7 @@ namespace JSIPartUtilities
 		}
 
 		[KSPEvent (active = true, guiActive = false, guiActiveEditor = false)]
-		public void JSIGroupToggle (BaseEventData data)
+		public void JSIGroupToggle (BaseEventDetails data)
 		{
 			if (data.GetString ("groupID") == groupID && !string.IsNullOrEmpty (groupID)) {
 				if (data.GetGameObject ("objectLocal") == null || data.GetGameObject ("objectLocal") == part.gameObject) {

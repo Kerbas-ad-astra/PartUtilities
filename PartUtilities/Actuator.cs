@@ -251,7 +251,7 @@ namespace JSIPartUtilities
 			case ActuatorType.PartComponent:
 			// Note to other people who want to use this:
 			// If you want to control a JSIPartComponentToggle, this is how you do it!
-				var eventData = new BaseEventData (BaseEventData.Sender.USER);
+				var eventData = new BaseEventDetails(BaseEventDetails.Sender.USER);
 				eventData.Set ("moduleID", moduleID);
 				eventData.Set ("state", newstate);
 				eventData.Set ("objectLocal", objectLocal);
@@ -260,7 +260,7 @@ namespace JSIPartUtilities
 			case ActuatorType.PartComponentGroup:
 				// Note to other people who want to use this:
 				// If you want to control a JSIPartComponentToggle, this is how you do it!
-				var eventgroupData = new BaseEventData (BaseEventData.Sender.USER);
+				var eventgroupData = new BaseEventDetails(BaseEventDetails.Sender.USER);
 				eventgroupData.Set ("groupID", moduleID);
 				eventgroupData.Set ("state", newstate);
 				eventgroupData.Set ("objectLocal", objectLocal);
@@ -286,7 +286,7 @@ namespace JSIPartUtilities
 				}
 				break;
 			case ActuatorType.CrewCapacity:
-				var eventccData = new BaseEventData (BaseEventData.Sender.USER);
+				var eventccData = new BaseEventDetails(BaseEventDetails.Sender.USER);
 				eventccData.Set ("state", newstate);
 				eventccData.Set ("objectLocal", objectLocal);
 				thatPart.SendEvent ("JSISetCrewCapacity", eventccData);

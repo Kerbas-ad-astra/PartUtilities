@@ -16,7 +16,7 @@ namespace JSIPartUtilities
 		public void ButtonTogglePartComponent (bool state)
 		{
 			if (!string.IsNullOrEmpty (partComponentID)) {
-				var eventData = new BaseEventData (BaseEventData.Sender.USER);
+				var eventData = new BaseEventDetails(BaseEventDetails.Sender.USER);
 				eventData.Set ("moduleID", partComponentID);
 				eventData.Set ("state", state);
 				eventData.Set ("objectLocal", part.gameObject);
@@ -142,7 +142,7 @@ namespace JSIPartUtilities
 		}
 
 		[KSPEvent (active = true, guiActive = false, guiActiveEditor = false)]
-		public void JSIComponentToggle (BaseEventData data)
+		public void JSIComponentToggle (BaseEventDetails data)
 		{
 			if (!string.IsNullOrEmpty (moduleID) && data.GetString ("moduleID") == moduleID) {
 				if (data.GetGameObject ("objectLocal") == null || data.GetGameObject ("objectLocal") == part.gameObject) {

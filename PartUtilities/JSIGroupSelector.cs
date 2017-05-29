@@ -110,7 +110,7 @@ namespace JSIPartUtilities
 
 		private void ToggleGroup (string groupID, bool newstate, GameObject objectLocal)
 		{
-			var eventData = new BaseEventData (BaseEventData.Sender.USER);
+			var eventData = new BaseEventDetails(BaseEventDetails.Sender.USER);
 			eventData.Set ("groupID", groupID);
 			eventData.Set ("state", newstate);
 			eventData.Set ("objectLocal", objectLocal);
