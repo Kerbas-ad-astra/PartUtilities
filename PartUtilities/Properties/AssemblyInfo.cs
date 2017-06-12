@@ -16,7 +16,7 @@ using System.Runtime.CompilerServices;
 // and "{Major}.{Minor}.{Build}.*" will update just the revision.
 
 // Version number for linking is 0.0.1.0
-[assembly: AssemblyVersion ("0.0.1.0")]
+//[assembly: AssemblyVersion ("0.0.1.0")]
 // Build number is as current.
 [assembly: AssemblyFileVersion("0.0.3.103")]
 
