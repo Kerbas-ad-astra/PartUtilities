@@ -24,7 +24,7 @@
 # 0:1.3
 
 # 1:GAMEDIR, VERSIONFILE [, GITHUBREPO ]
-1:JSI, JSIPartUtilities.version
+1:JSI, JSIPartUtilities.version, PartUtilities
 
 # 2:PROJNAME, PROJFILE, VERSIONFILE, PLUGINSFOLDER
 2:PartUtilities,PartUtilities/PartUtilities.csproj,JSIPartUtilities.version,GameData/JSI/PartUtilities/Plugins
