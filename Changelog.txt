@@ -1,3 +1,6 @@
+0.4.3
+	Updated AssemblyVersoin.tt
+	Added InstallChecker.cs
 
 0.4.2.1
 	Version bump for 1.5 rebuild
