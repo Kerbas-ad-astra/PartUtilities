@@ -1,3 +1,6 @@
+0.5.0.1
+	Updated MiniAVC to 1.4.0
+
 0.5.0
 	Updated installChecker
 	Updated deploy.bat
