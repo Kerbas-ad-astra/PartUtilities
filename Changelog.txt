@@ -1,0 +1,32 @@
+ChangeLog
+
+0.5.0.4
+	Added the RPM bundle files copied from the RPM mod, needed to eliminate a dependency
+
+0.5.0.3
+	Really did the MiniAVC update
+
+0.5.0.2
+	Updated MiniAVC.dll to 1.4.0.2 to fix a nasty CTD
+
+0.5.0.1
+	Updated MiniAVC to 1.4.0
+
+0.5.0
+	Updated installChecker
+	Updated deploy.bat
+	Rebuild for 1.8
+
+0.4.3
+	Updated AssemblyVersion.tt
+	Added InstallChecker.cs
+
+0.4.2.1
+	Version bump for 1.5 rebuild
+
+0.4.2.0
+	Updated for 1.4.1
+
+0.4.0
+	updated for 1.3.1
+	

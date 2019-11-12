@@ -57,7 +57,7 @@ namespace JSIPartUtilities
 		}
 
 		[KSPEvent (active = true, guiActive = false, guiActiveEditor = false)]
-		public void JSISetCrewCapacity (BaseEventData data)
+		public void JSISetCrewCapacity (BaseEventDetails data)
 		{
 			if (data.GetGameObject ("objectLocal") == part.gameObject) {
 				currentState = data.GetBool ("state");

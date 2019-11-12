@@ -1,0 +1,19 @@
+{
+  "NAME": "JSIPartUtilities",
+  "URL": "http://ksp.spacetux.net/avc/JSIPartUtilities",
+  "GITHUB": {
+    "USERNAME": "linuxgurugamer",
+    "REPOSITORY": "PartUtilities"
+  },
+  "VERSION": {
+    "MAJOR": 0,
+    "MINOR": 4,
+    "PATCH": 3,
+    "BUILD": 0
+  },
+  "KSP_VERSION_MIN": {
+    "MAJOR": 1,
+    "MINOR": 5,
+    "PATCH": 1
+  }
+}
