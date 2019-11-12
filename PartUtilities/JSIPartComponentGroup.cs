@@ -72,11 +72,6 @@ namespace JSIPartUtilities
 
 		private readonly List<Actuator> actuators = new List<Actuator> ();
 
-		ModifierChangeWhen IPartMassModifier.GetModuleMassChangeWhen()
-		{
-			return activeInFlight ? ModifierChangeWhen.CONSTANTLY : ModifierChangeWhen.FIXED;
-		}
-
 		private void ParseSet (string input, ActuatorType type)
 		{
 			foreach (string actuatorConfig in input.Split(new [] {'|'},StringSplitOptions.RemoveEmptyEntries)) {

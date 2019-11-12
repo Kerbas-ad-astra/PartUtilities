@@ -7,7 +7,7 @@ using System.Runtime.CompilerServices;
 [assembly: AssemblyTitle ("JSIPartUtilities")]
 [assembly: AssemblyDescription ("JSIPartUtilities plugin for Kerbal Space Program")]
 [assembly: AssemblyProduct ("JSIPartUtilities")]
-[assembly: AssemblyCopyright ("Copyright ©2016 by Mihara and Kerbas_ad_astra, released under the terms of GNU GPLv3")]
+[assembly: AssemblyCopyright ("Copyright ©2014 by Mihara, released under the terms of GNU GPLv3")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -18,7 +18,7 @@ using System.Runtime.CompilerServices;
 // Version number for linking is 0.0.1.0
 //[assembly: AssemblyVersion ("0.0.1.0")]
 // Build number is as current.
-[assembly: AssemblyFileVersion("0.0.3.104")]
+[assembly: AssemblyFileVersion("0.0.3.103")]
 
 // Number for KSP Assembly linking is the same foreva.
 [assembly: KSPAssembly("JSIPartUtilities", 0, 1)]

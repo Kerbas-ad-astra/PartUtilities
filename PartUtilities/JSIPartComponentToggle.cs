@@ -88,11 +88,6 @@ namespace JSIPartUtilities
 			return currentState ? costOfBeingEnabled : 0;
 		}
 
-		ModifierChangeWhen IPartCostModifier.GetModuleCostChangeWhen()
-		{
-			return activeInFlight ? ModifierChangeWhen.CONSTANTLY : ModifierChangeWhen.FIXED;
-		}
-
 		#endregion
 
 		public override void OnStart (PartModule.StartState state)
