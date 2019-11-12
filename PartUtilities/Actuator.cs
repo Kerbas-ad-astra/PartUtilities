@@ -37,13 +37,14 @@ namespace JSIPartUtilities
 		private readonly Vector3 faraway = new Vector3 (10000, 10000, 10000);
 		private readonly Vector3 savedNodePosition = Vector3.zero;
 
-		private const double KelvinToCelsius = -273.15;
-
 		private PartResource resourcePointer;
 
 		private string[] knownStraightParameters = {
+			"mass",
 			"maxTemp",
 			"crashTolerance",
+			"maximum_drag",
+			"minimum_drag",
 			"breakingForce",
 			"breakingTorque"
 		};
@@ -75,16 +76,16 @@ namespace JSIPartUtilities
 				break;
 			case ActuatorType.PartModule:
 				int moduleIndex = int.Parse (remainder.Split (',') [1]);
-				var thoseModules = new List<PartModule> ();
+				List<PartModule> thoseModules = new List<PartModule> ();
 				foreach (PartModule thatModule in thatPart.Modules) {
 					if (thatModule.ClassName == tokens [0].Trim ()) {
 						thoseModules.Add (thatModule);
 					}
-				}
-				if (moduleIndex < thoseModules.Count) {
-					controlledModule = thoseModules [moduleIndex];
-				} else {
-					JUtil.LogErrorMessage (this, "Could not find PartModule named {2} number {0} in part {1}", moduleIndex, thatPart.name, tokens [0].Trim ());
+					if (moduleIndex < thoseModules.Count) {
+						controlledModule = thoseModules [moduleIndex];
+					} else {
+						JUtil.LogErrorMessage (this, "Could not find PartModule named {2} number {0} in part {1}", moduleIndex, thatPart.name, tokens [0].Trim ());
+					}
 				}
 				JUtil.LogMessage (this, "Controlling PartModule named {0}, {1}", controlledModule.ClassName, inverted ? "inverted" : "regular");
 				break;
@@ -181,7 +182,7 @@ namespace JSIPartUtilities
 			case ActuatorType.AttachmentNode:
 				if (tokens.Length == 1) {
 					nodeName = tokens [0].Trim ();
-					var foundNode = thatPart.FindAttachNode (nodeName);
+					var foundNode = thatPart.FindAttachNode(nodeName);
 					if (foundNode == null) {
 						throw new ArgumentException ("Node not found.");
 					}
@@ -197,10 +198,16 @@ namespace JSIPartUtilities
 		private static float GetParameter (string name, Part thatPart)
 		{
 			switch (name) {
+			case "mass":
+				return thatPart.mass;
 			case "maxTemp":
-				return (float)(thatPart.maxTemp + KelvinToCelsius);
+                return (float)thatPart.maxTemp;
 			case "crashTolerance":
 				return thatPart.crashTolerance;
+			case "maximum_drag":
+				return thatPart.maximum_drag;
+			case "minimum_drag":
+				return thatPart.minimum_drag;
 			case "breakingForce":
 				return thatPart.breakingForce;
 			case "breakingTorque":
@@ -212,12 +219,20 @@ namespace JSIPartUtilities
 		private static void SetParameter (string name, Part thatPart, float value)
 		{
 			switch (name) {
+			case "mass":
+				thatPart.mass = value;
+				break;
 			case "maxTemp":
-				var newValue = value - KelvinToCelsius;
-				thatPart.maxTemp = newValue > 0 ? newValue : 0;
+				thatPart.maxTemp = value;
 				break;
 			case "crashTolerance":
 				thatPart.crashTolerance = value;
+				break;
+			case "maximum_drag":
+				thatPart.maximum_drag = value;
+				break;
+			case "minimum_drag":
+				thatPart.minimum_drag = value;
 				break;
 			case "breakingForce":
 				thatPart.breakingForce = value;
@@ -236,7 +251,7 @@ namespace JSIPartUtilities
 			case ActuatorType.PartComponent:
 			// Note to other people who want to use this:
 			// If you want to control a JSIPartComponentToggle, this is how you do it!
-				var eventData = new BaseEventData (BaseEventData.Sender.USER);
+				var eventData = new BaseEventDetails(BaseEventDetails.Sender.USER);
 				eventData.Set ("moduleID", moduleID);
 				eventData.Set ("state", newstate);
 				eventData.Set ("objectLocal", objectLocal);
@@ -245,7 +260,7 @@ namespace JSIPartUtilities
 			case ActuatorType.PartComponentGroup:
 				// Note to other people who want to use this:
 				// If you want to control a JSIPartComponentToggle, this is how you do it!
-				var eventgroupData = new BaseEventData (BaseEventData.Sender.USER);
+				var eventgroupData = new BaseEventDetails(BaseEventDetails.Sender.USER);
 				eventgroupData.Set ("groupID", moduleID);
 				eventgroupData.Set ("state", newstate);
 				eventgroupData.Set ("objectLocal", objectLocal);
@@ -271,7 +286,7 @@ namespace JSIPartUtilities
 				}
 				break;
 			case ActuatorType.CrewCapacity:
-				var eventccData = new BaseEventData (BaseEventData.Sender.USER);
+				var eventccData = new BaseEventDetails(BaseEventDetails.Sender.USER);
 				eventccData.Set ("state", newstate);
 				eventccData.Set ("objectLocal", objectLocal);
 				thatPart.SendEvent ("JSISetCrewCapacity", eventccData);
@@ -296,23 +311,19 @@ namespace JSIPartUtilities
 						node.AddValue ("amount", maxAmount);
 						node.AddValue ("maxAmount", maxAmount);
 						resourcePointer = thatPart.AddResource (node);
-						resourcePointer.flowState = true;
+						//resourcePointer.enabled = true;
 					} 
 
 				}
 				break;
 			case ActuatorType.AttachmentNode:
 				if (HighLogic.LoadedSceneIsEditor && savedNodePosition != faraway) {
-					var foundNode = thatPart.FindAttachNode (nodeName);
+					var foundNode = thatPart.FindAttachNode(nodeName);
 					if (foundNode.attachedPart == null) {
 						foundNode.position = newstate ? faraway : savedNodePosition;
 					}
 				}
 				break;
-			}
-			if (HighLogic.LoadedSceneIsEditor) {
-				// We need to also notify the editor that we changed the part so that Engineers' Toolbox works.
-				GameEvents.onEditorShipModified.Fire(EditorLogic.fetch.ship);
 			}
 		}
 	}

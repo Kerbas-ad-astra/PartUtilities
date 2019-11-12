@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace JSIPartUtilities
 {
-	public class JSIPartComponentGroup: PartModule, IPartCostModifier, IPartMassModifier
+	public class JSIPartComponentGroup: PartModule
 	{
 
 		[KSPField (isPersistant = true)]
@@ -19,12 +19,6 @@ namespace JSIPartUtilities
 
 		[KSPField]
 		public bool areComponentsEnabled = true;
-
-		[KSPField]
-		public float costOfBeingEnabled = 0;
-
-		[KSPField]
-		public float massOfBeingEnabled = 0;
 
 		[KSPField]
 		public bool persistAfterEditor = true;
@@ -77,21 +71,6 @@ namespace JSIPartUtilities
 		public string toggleMenuString = string.Empty;
 
 		private readonly List<Actuator> actuators = new List<Actuator> ();
-
-		float IPartCostModifier.GetModuleCost(float defaultCost, ModifierStagingSituation sit)
-		{
-			return currentState ? costOfBeingEnabled : 0;
-		}
-
-		ModifierChangeWhen IPartCostModifier.GetModuleCostChangeWhen()
-		{
-			return activeInFlight ?  ModifierChangeWhen.CONSTANTLY : ModifierChangeWhen.FIXED;
-		}
-
-		float IPartMassModifier.GetModuleMass(float defaultMass, ModifierStagingSituation sit)
-		{
-			return currentState ? massOfBeingEnabled : 0;
-		}
 
 		ModifierChangeWhen IPartMassModifier.GetModuleMassChangeWhen()
 		{
@@ -175,7 +154,7 @@ namespace JSIPartUtilities
 		}
 
 		[KSPEvent (active = true, guiActive = false, guiActiveEditor = false)]
-		public void JSIGroupToggle (BaseEventData data)
+		public void JSIGroupToggle (BaseEventDetails data)
 		{
 			if (data.GetString ("groupID") == groupID && !string.IsNullOrEmpty (groupID)) {
 				if (data.GetGameObject ("objectLocal") == null || data.GetGameObject ("objectLocal") == part.gameObject) {
