@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace JSIPartUtilities
@@ -40,6 +41,93 @@ namespace JSIPartUtilities
 			return fb;
 		}
 
-	}
+        internal static Dictionary<string, Shader> parsedShaders;
+        static bool assetsLoaded = false;
+        public static void LoadAssets()
+        {
+            assetsLoaded = true;
+            String assetsPath = KSPUtil.ApplicationRootPath + "GameData/JSI/RPMBundles/";
+            String shaderAssetBundleName = "rasterpropmonitor";
+            parsedShaders = new Dictionary<string, Shader>();
+
+            if (Application.platform == RuntimePlatform.WindowsPlayer)
+            {
+                shaderAssetBundleName += "-windows";
+            }
+            else if (Application.platform == RuntimePlatform.LinuxPlayer)
+            {
+                shaderAssetBundleName += "-linux";
+            }
+            else if (Application.platform == RuntimePlatform.OSXPlayer)
+            {
+                shaderAssetBundleName += "-osx";
+            }
+            shaderAssetBundleName += ".assetbundle";
+
+            WWW www = new WWW("file://" + assetsPath + shaderAssetBundleName);
+
+            if (!string.IsNullOrEmpty(www.error))
+            {
+                Debug.Log("Error loading AssetBundle: "+ www.error);
+                return;
+            }
+            else if (www.assetBundle == null)
+            {
+                Debug.Log("Unable to load AssetBundle "+ www);
+                return;
+            }
+
+            JUtil.parsedShaders.Clear();
+
+            AssetBundle bundle = www.assetBundle;
+
+            string[] assetNames = bundle.GetAllAssetNames();
+            int len = assetNames.Length;
+
+            Shader shader;
+            for (int i = 0; i < len; i++)
+            {
+                if (assetNames[i].EndsWith(".shader"))
+                {
+                    shader = bundle.LoadAsset<Shader>(assetNames[i]);
+                    if (!shader.isSupported)
+                    {
+                        Debug.Log("Shader " + shader.name+" - unsupported in this configuration: ");
+                    }
+                    JUtil.parsedShaders[shader.name] = shader;
+                }
+            }
+
+            bundle.Unload(false);
+
+             Debug.Log( "Found "+ JUtil.parsedShaders.Count + " RPM shaders");
+        }
+
+        internal static Shader LoadInternalShader(string shaderName)
+        {
+            if (!parsedShaders.ContainsKey(shaderName))
+            {
+                JUtil.LogErrorMessage(null, "Failed to find shader {0}", shaderName);
+                return null;
+            }
+            else
+            {
+                return parsedShaders[shaderName];
+            }
+        }
+
+
+        public static Material DrawLineMaterial()
+        {
+            if (!assetsLoaded)
+                LoadAssets();
+
+            var lineMaterial = new Material(LoadInternalShader("RPM/FontShader"));
+            lineMaterial.hideFlags = HideFlags.HideAndDontSave;
+            lineMaterial.shader.hideFlags = HideFlags.HideAndDontSave;
+            return lineMaterial;
+        }
+
+    }
 }
 
